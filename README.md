@@ -39,7 +39,7 @@ ROS Kinetic or Melodic. [ROS Installation](http://wiki.ros.org/ROS/Installation)
 
 
 ### 1.2. **Ceres Solver**
-Follow [Ceres Installation](http://ceres-solver.org/installation.html). (Tested by Ceres1.14.0)
+Follow [Ceres Installation](http://ceres-solver.org/installation.html). (Tested by Ceres1.14.0) Further modification is required if using Ceres 2.X.
 
 
 ## 2. Build VINS-Fusion
