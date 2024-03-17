@@ -34,12 +34,12 @@ alt="VINS" width="320" height="240" border="10" /></a>
 
 ## 1. Prerequisites
 ### 1.1 **Ubuntu** and **ROS**
-Ubuntu 64-bit 16.04 or 18.04.
+Ubuntu 64-bit 16.04, 18.04, or 20.04 (Tested by OpenCV4.2.0, ROS noetic).
 ROS Kinetic or Melodic. [ROS Installation](http://wiki.ros.org/ROS/Installation)
 
 
 ### 1.2. **Ceres Solver**
-Follow [Ceres Installation](http://ceres-solver.org/installation.html).
+Follow [Ceres Installation](http://ceres-solver.org/installation.html). (Tested by Ceres1.14.0)
 
 
 ## 2. Build VINS-Fusion
@@ -59,7 +59,7 @@ Open four terminals, run vins odometry, visual loop closure(optional), rviz and 
 Green path is VIO odometry; red path is odometry under visual loop closure.
 
 ### 3.1 Monocualr camera + IMU
-
+Add source .../devel/setup.bash (or setup.zsh) to your .bashrc or .zshrc
 ```
     roslaunch vins vins_rviz.launch
     rosrun vins vins_node ~/catkin_ws/src/VINS-Fusion/config/euroc/euroc_mono_imu_config.yaml 
