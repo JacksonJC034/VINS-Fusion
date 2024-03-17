@@ -34,7 +34,7 @@ alt="VINS" width="320" height="240" border="10" /></a>
 
 ## 1. Prerequisites
 ### 1.1 **Ubuntu** and **ROS**
-Ubuntu 64-bit 16.04, 18.04, or 20.04 (Tested by OpenCV4.2.0, ROS noetic).
+Ubuntu 64-bit 16.04, 18.04, or 20.04 (Tested by OpenCV4.2.0, ROS Noetic).
 ROS Kinetic or Melodic. [ROS Installation](http://wiki.ros.org/ROS/Installation)
 
 
