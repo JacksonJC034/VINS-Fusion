@@ -141,19 +141,34 @@ void vio_callback(const nav_msgs::Odometry::ConstPtr &pose_msg)
     pub_global_path.publish(*global_path);
     publish_car_model(t, global_t, global_q);
 
+    // Before
+    // // write result to file
+    // std::ofstream foutC("/home/tony-ws1/output/vio_global.csv", ios::app);
+    // foutC.setf(ios::fixed, ios::floatfield);
+    // foutC.precision(0);
+    // foutC << pose_msg->header.stamp.toSec() * 1e9 << ",";
+    // foutC.precision(5);
+    // foutC << global_t.x() << ","
+    //         << global_t.y() << ","
+    //         << global_t.z() << ","
+    //         << global_q.w() << ","
+    //         << global_q.x() << ","
+    //         << global_q.y() << ","
+    //         << global_q.z() << endl;
+    // foutC.close();
 
-    // write result to file
-    std::ofstream foutC("/home/tony-ws1/output/vio_global.csv", ios::app);
+    // After
+    std::ofstream foutC("/home/jackson/catkin_ws/src/VINS-Fusion/data/vio_global.csv", ios::app);
     foutC.setf(ios::fixed, ios::floatfield);
     foutC.precision(0);
-    foutC << pose_msg->header.stamp.toSec() * 1e9 << ",";
+    foutC << pose_msg->header.stamp.toSec() << " ";
     foutC.precision(5);
-    foutC << global_t.x() << ","
-            << global_t.y() << ","
-            << global_t.z() << ","
-            << global_q.w() << ","
-            << global_q.x() << ","
-            << global_q.y() << ","
+    foutC << global_t.x() << " "
+            << global_t.y() << " "
+            << global_t.z() << " "
+            << global_q.w() << " "
+            << global_q.x() << " "
+            << global_q.y() << " "
             << global_q.z() << endl;
     foutC.close();
 }
