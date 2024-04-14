@@ -163,10 +163,38 @@ void Estimator::inputImage(double t, const cv::Mat &_img, const cv::Mat &_img1)
     map<int, vector<pair<int, Eigen::Matrix<double, 7, 1>>>> featureFrame;
     TicToc featureTrackerTime;
 
-    if(_img1.empty())
-        featureFrame = featureTracker.trackImage(t, _img);
+    // Define parameters for the bilateral filter
+    int d = 9; // Diameter of each pixel neighborhood
+    double sigmaColor = 75.0; // Filter sigma in the color space
+    double sigmaSpace = 75.0; // Filter sigma in the coordinate space
+
+    // Bilateral filter application
+    cv::Mat img_filtered, img1_filtered;
+    if (!_img.empty())
+        cv::bilateralFilter(_img, img_filtered, d, sigmaColor, sigmaSpace);
+    if (!_img1.empty())
+        cv::bilateralFilter(_img1, img1_filtered, d, sigmaColor, sigmaSpace);
+
+    // Apply Sobel operator to detect edges
+    cv::Mat grad_x, grad_y;
+    cv::Mat abs_grad_x, abs_grad_y;
+    int scale = 1;
+    int delta = 0;
+    int ddepth = CV_16S; // To handle negative values produced by gradients
+    cv::Sobel(img_filtered, grad_x, ddepth, 1, 0, 3, scale, delta, cv::BORDER_DEFAULT);
+    cv::convertScaleAbs(grad_x, abs_grad_x);
+    cv::Sobel(img_filtered, grad_y, ddepth, 0, 1, 3, scale, delta, cv::BORDER_DEFAULT);
+    cv::convertScaleAbs(grad_y, abs_grad_y);
+
+    cv::Mat edge_detected;
+    cv::addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0, edge_detected);
+    
+    // Feature tracking adjusted for bilateral filtered images
+    if(img1_filtered.empty())
+        featureFrame = featureTracker.trackImage(t, edge_detected); // Use edge-detected image for tracking
     else
-        featureFrame = featureTracker.trackImage(t, _img, _img1);
+        featureFrame = featureTracker.trackImage(t, edge_detected, img1_filtered); // If second image exists
+
     //printf("featureTracker time: %f\n", featureTrackerTime.toc());
 
     if (SHOW_TRACK)
